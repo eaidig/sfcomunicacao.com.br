@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SF Comunicação - Conectando Ideias</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Blob Animation from Hero */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #06b6d4; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0891b2; 
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+  }
+}
+</script>
+</head>
+<body class="bg-white">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-black/95 text-white border-b border-gray-800 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <i data-lucide="globe" class="h-8 w-8 text-cyan-500"></i>
+                        <span class="font-bold text-xl tracking-wider">SF COMUNICAÇÃO</span>
+                    </div>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Início</a>
+                        <a href="#services" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Soluções</a>
+                        <a href="#about" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Sobre</a>
+                        <a href="#contact" class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105">
+                            Solicite Orçamento
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none">
+                        <i data-lucide="menu" class="h-6 w-6 block" id="menu-icon"></i>
+                        <i data-lucide="x" class="h-6 w-6 hidden" id="close-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-gray-900 border-b border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-white hover:text-cyan-400">Início</a>
+                <a href="#services" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-cyan-400">Soluções</a>
+                <a href="#about" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-cyan-400">Sobre</a>
+                <a href="#contact" class="mobile-link block px-3 py-2 mt-4 text-center rounded-md text-base font-bold bg-cyan-600 text-white hover:bg-cyan-500">
+                    Solicite Orçamento
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative bg-black text-white pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Canvas for Bird Animation -->
+        <canvas id="bird-canvas" class="absolute top-0 left-0 w-full h-full z-0 opacity-40"></canvas>
+
+        <!-- Abstract Blobs -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-cyan-400 font-bold tracking-wide uppercase text-sm mb-4">
+                    SF Comunicação
+                </h2>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-tight">
+                    Conectando Ideias para o <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">Sucesso da Sua Marca</span>.
+                </h1>
+                <p class="mt-4 text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Transforme a presença digital da sua empresa com estratégias que geram resultados reais, economizam seu tempo e engajam seu público alvo de verdade.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-full text-black bg-cyan-500 hover:bg-cyan-400 transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/25">
+                        Começar Agora
+                        <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                    </a>
+                    <a href="#services" class="inline-flex items-center justify-center px-8 py-4 border border-gray-700 text-lg font-medium rounded-full text-white hover:bg-gray-900 transition-colors">
+                        Conhecer Soluções
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Soluções Completas para o Digital
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Da estratégia à execução, oferecemos tudo o que sua marca precisa para se destacar no mercado competitivo.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
+                        <i data-lucide="mic-2" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Assessoria de Imprensa</h3>
+                    <p class="text-gray-600 leading-relaxed">Aumente sua autoridade e visibilidade na mídia espontânea com estratégias que colocam sua marca em destaque.</p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
+                        <i data-lucide="share-2" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Gerenciamento de Redes Sociais</h3>
+                    <p class="text-gray-600 leading-relaxed">Gestão completa do seu perfil para gerar conexão real com seguidores e transformar likes em clientes.</p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
+                        <i data-lucide="trending-up" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Planejamento Estratégico</h3>
+                    <p class="text-gray-600 leading-relaxed">Pare de atirar no escuro. Criamos um roteiro detalhado focado nos seus objetivos comerciais e KPIs.</p>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
+                        <i data-lucide="pen-tool" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Geração de Conteúdo</h3>
+                    <p class="text-gray-600 leading-relaxed">Textos persuasivos e relevantes que educam seu mercado e conduzem o cliente pela jornada de compra.</p>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
+                        <i data-lucide="layout" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Materiais Gráficos</h3>
+                    <p class="text-gray-600 leading-relaxed">Design profissional que transmite credibilidade e fortalece a identidade visual da sua marca.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section id="about" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                
+                <div class="mb-12 lg:mb-0">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Por que escolher a SF Comunicação?
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        Não somos apenas uma agência; somos parceiros estratégicos do seu negócio. 
+                        Nosso foco é claro: entregar resultados mensuráveis através de uma comunicação 
+                        informativa, profissional e vibrante.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-500"></i>
+                            </div>
+                            <p class="ml-3 text-lg text-gray-700">Experiência comprovada em comunicação B2B e digital.</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-500"></i>
+                            </div>
+                            <p class="ml-3 text-lg text-gray-700">Estratégias personalizadas para pequenas e médias empresas.</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-500"></i>
+                            </div>
+                            <p class="ml-3 text-lg text-gray-700">Atendimento ágil e focado em Sapucaia do Sul e todo Brasil.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+                    <!-- Decorative circles -->
+                    <div class="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-cyan-600 rounded-full opacity-20"></div>
+                    <div class="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 bg-purple-600 rounded-full opacity-20"></div>
+
+                    <h3 class="text-2xl font-bold mb-8 relative z-10">Nossa Presença Digital</h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
+                        <div class="flex flex-col p-4 bg-gray-800 rounded-xl border border-gray-700">
+                            <i data-lucide="layers" class="h-8 w-8 text-cyan-400 mb-2"></i>
+                            <span class="text-4xl font-bold">314+</span>
+                            <span class="text-gray-400 text-sm mt-1">Posts Estratégicos</span>
+                        </div>
+                        
+                        <div class="flex flex-col p-4 bg-gray-800 rounded-xl border border-gray-700">
+                            <i data-lucide="users" class="h-8 w-8 text-cyan-400 mb-2"></i>
+                            <span class="text-4xl font-bold">240+</span>
+                            <span class="text-gray-400 text-sm mt-1">Seguidores Ativos</span>
+                        </div>
+
+                        <div class="flex flex-col p-4 bg-gray-800 rounded-xl border border-gray-700 sm:col-span-2">
+                            <i data-lucide="award" class="h-8 w-8 text-purple-400 mb-2"></i>
+                            <span class="text-lg font-semibold">Compromisso com Qualidade</span>
+                            <span class="text-gray-400 text-sm mt-1">Foco total no crescimento da sua marca.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-gradient-to-b from-gray-900 to-black text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Vamos Conectar Ideias?</h2>
+                <p class="text-gray-400 text-lg">
+                    Preencha o formulário abaixo para solicitar um orçamento ou tirar dúvidas. 
+                    Nossa equipe responderá o mais breve possível.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Contact Info -->
+                <div class="md:col-span-1 space-y-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-cyan-900/50 p-3 rounded-lg">
+                            <i data-lucide="phone" class="h-6 w-6 text-cyan-400"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold">Telefone/WhatsApp</h4>
+                            <p class="text-gray-400 mt-1">+55 51 99589-6326</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-cyan-900/50 p-3 rounded-lg">
+                            <i data-lucide="mail" class="h-6 w-6 text-cyan-400"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold">E-mail</h4>
+                            <p class="text-gray-400 mt-1">sfcomunicacao3@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-gray-800 rounded-xl border border-gray-700">
+                        <p className="text-sm text-gray-300 italic">
+                            "A SF Comunicação transformou nossa visão em realidade digital."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="md:col-span-2 bg-white rounded-2xl p-8 text-gray-900 shadow-2xl">
+                    <div id="successMessage" class="hidden h-full flex flex-col items-center justify-center text-center py-12">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                            <i data-lucide="send" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900">Mensagem Enviada!</h3>
+                        <p class="text-gray-600 mt-2">Obrigado pelo contato. Retornaremos em breve.</p>
+                        <button onclick="resetForm()" class="mt-6 text-cyan-600 font-semibold hover:underline">
+                            Enviar outra mensagem
+                        </button>
+                    </div>
+
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label htmlFor="name" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                                <input type="text" id="name" name="name" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
+                                    placeholder="Seu nome" />
+                            </div>
+                            <div>
+                                <label htmlFor="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail Corporativo</label>
+                                <input type="email" id="email" name="email" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
+                                    placeholder="seu@email.com" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label htmlFor="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+                                <input type="tel" id="phone" name="phone"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
+                                    placeholder="(00) 00000-0000" />
+                            </div>
+                            <div>
+                                <label htmlFor="interest" class="block text-sm font-medium text-gray-700 mb-1">Interesse Principal</label>
+                                <select id="interest" name="interest"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all">
+                                    <option>Assessoria de Imprensa</option>
+                                    <option>Gestão de Redes Sociais</option>
+                                    <option>Planejamento Estratégico</option>
+                                    <option>Criação de Conteúdo</option>
+                                    <option>Materiais Gráficos</option>
+                                    <option>Outros</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label htmlFor="message" class="block text-sm font-medium text-gray-700">Mensagem</label>
+                                <button type="button" id="aiBtn" onclick="generateAiDraft()"
+                                    class="text-xs flex items-center gap-1 text-purple-600 hover:text-purple-800 font-semibold transition-colors">
+                                    <i data-lucide="sparkles" class="w-3 h-3"></i>
+                                    Escrever com IA
+                                </button>
+                            </div>
+                            <textarea id="message" name="message" rows="4" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
+                                placeholder="Conte um pouco sobre sua necessidade..."></textarea>
+                        </div>
+
+                        <button type="submit" id="submitBtn"
+                            class="w-full bg-cyan-600 text-white font-bold py-3 rounded-lg hover:bg-cyan-500 transition-colors shadow-lg shadow-cyan-600/30 flex items-center justify-center gap-2">
+                            Solicite um Orçamento <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-gray-400 py-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-white font-bold text-lg">SF COMUNICAÇÃO</span>
+                <p class="text-xs mt-1">Conectando Ideias.</p>
+            </div>
+            <div class="text-sm text-center md:text-right">
+                <p id="year"></p>
+                <p class="mt-1">Sapucaia do Sul, RS - Brasil</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // --- CONFIG ---
+        // ATENÇÃO: Substitua esta variável pela sua chave de API real da Google Gemini
+        const GEMINI_API_KEY = 'YOUR_API_KEY_HERE'; 
+
+        // --- ICONS ---
+        lucide.createIcons();
+
+        // --- NAVBAR LOGIC ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!mobileMenu.classList.contains('hidden')) toggleMenu();
+            });
+        });
+
+        // --- FOOTER YEAR ---
+        document.getElementById('year').innerText = `© ${new Date().getFullYear()} SF Comunicação. Todos os direitos reservados.`;
+
+        // --- BIRD ANIMATION (CANVAS) ---
+        const canvas = document.getElementById('bird-canvas');
+        const ctx = canvas.getContext('2d');
+        let birds = [];
+        const birdCount = 30;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Bird {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.velocity = {
+                    x: Math.random() * 2 - 1,
+                    y: Math.random() * 2 - 1
+                };
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                // Draw a simple bird/triangle shape
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.size * 2, this.y + this.size);
+                ctx.lineTo(this.x - this.size * 2, this.y - this.size);
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > canvas.width) this.velocity.x *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.velocity.y *= -1;
+
+                this.draw();
+            }
+        }
+
+        function initBirds() {
+            birds = [];
+            for (let i = 0; i < birdCount; i++) {
+                birds.push(new Bird());
+            }
+        }
+
+        function animateBirds() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            birds.forEach(bird => bird.update());
+            requestAnimationFrame(animateBirds);
+        }
+
+        initBirds();
+        animateBirds();
+
+        // --- FORM & AI LOGIC ---
+        const form = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+        const aiBtn = document.getElementById('aiBtn');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function resetForm() {
+            form.reset();
+            form.classList.remove('hidden');
+            successMessage.classList.add('hidden');
+        }
+
+        async function generateAiDraft() {
+            const name = document.getElementById('name').value;
+            const interest = document.getElementById('interest').value;
+            const messageBox = document.getElementById('message');
+
+            if (!name) {
+                alert("Por favor, preencha seu nome primeiro.");
+                return;
+            }
+
+            // UI Loading State
+            const originalBtnContent = aiBtn.innerHTML;
+            aiBtn.disabled = true;
+            aiBtn.innerHTML = `<i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> Gerando...`;
+            lucide.createIcons();
+
+            // Check API Key
+            if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_API_KEY_HERE') {
+                setTimeout(() => {
+                    messageBox.value = `Olá, meu nome é ${name}. Gostaria de solicitar um orçamento sobre ${interest}.`;
+                    aiBtn.disabled = false;
+                    aiBtn.innerHTML = originalBtnContent;
+                    lucide.createIcons();
+                }, 1000);
+                return;
+            }
+
+            try {
+                const promptText = `
+                    Você é um assistente de comunicação para clientes de uma agência de marketing chamada SF Comunicação.
+                    O cliente se chama "${name}" e está interessado em "${interest}".
+                    Escreva uma mensagem curta, profissional e direta (máximo de 3 frases) que esse cliente enviaria para a agência solicitando um orçamento ou reunião.
+                    Tom de voz: Profissional e focado em resultados.
+                `;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptText }] }]
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    messageBox.value = data.candidates[0].content.parts[0].text.trim();
+                } else {
+                    throw new Error('Invalid response structure');
+                }
+
+            } catch (error) {
+                console.error('AI Error:', error);
+                messageBox.value = `Olá, meu nome é ${name}. Tenho interesse em ${interest} e gostaria de saber mais.`;
+            } finally {
+                aiBtn.disabled = false;
+                aiBtn.innerHTML = originalBtnContent;
+                lucide.createIcons();
+            }
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Loading State
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Enviando...`;
+            lucide.createIcons();
+
+            // Simulate Network Request
+            setTimeout(() => {
+                form.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+            }, 1500);
+        });
+
+    </script>
+</body>
+</html>
