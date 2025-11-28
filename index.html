@@ -65,6 +65,46 @@
             opacity: 1 !important;
             transform: translateY(0) !important;
         }
+
+        /* Mobile Menu Transition Styles */
+        #mobile-menu {
+            transition-property: max-height, opacity, padding;
+            transition-duration: 300ms;
+            transition-timing-function: ease-in-out;
+        }
+        .menu-closed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            overflow: hidden;
+        }
+        .menu-open {
+            max-height: 400px; /* Arbitrary large height */
+            opacity: 1;
+        }
+
+        /* Modal Transitions */
+        #service-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #service-modal.modal-hidden {
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        #service-modal.modal-visible {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 60;
+        }
+        #service-modal .modal-content {
+            transition: transform 0.3s ease-out;
+            transform: scale(0.95);
+        }
+        #service-modal.modal-visible .modal-content {
+            transform: scale(1);
+        }
     </style>
 <script type="importmap">
 {
@@ -84,7 +124,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex items-center">
-                    <a href="#home" class="flex-shrink-0 flex items-center focus:outline-none" aria-label="SF Comunicação - Voltar ao topo">
+                    <a href="#home" class="flex-shrink-0 flex items-center focus:outline-none transition-transform hover:scale-105" aria-label="SF Comunicação - Voltar ao topo">
                         <img src="https://sfcomunicacao.com.br/logo-sf-comunicacao-redondo.png" alt="Logo SF Comunicação" class="h-12 w-auto">
                     </a>
                 </div>
@@ -107,20 +147,20 @@
                         aria-controls="mobile-menu" 
                         aria-expanded="false"
                         aria-label="Abrir menu principal">
-                        <i data-lucide="menu" class="h-6 w-6 block" id="menu-icon" aria-hidden="true"></i>
-                        <i data-lucide="x" class="h-6 w-6 hidden" id="close-icon" aria-hidden="true"></i>
+                        <i data-lucide="menu" class="h-6 w-6 block transition-transform duration-300" id="menu-icon" aria-hidden="true"></i>
+                        <i data-lucide="x" class="h-6 w-6 hidden transition-transform duration-300" id="close-icon" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden bg-gray-900 border-b border-gray-800">
+        <!-- Mobile Menu (Animated) -->
+        <div id="mobile-menu" class="md:hidden menu-closed bg-gray-900 border-b border-gray-800">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-white hover:text-cyan-400">Início</a>
-                <a href="#services" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-cyan-400">Soluções</a>
-                <a href="#about" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-cyan-400">Sobre</a>
-                <a href="#contact" class="mobile-link block px-3 py-2 mt-4 text-center rounded-md text-base font-bold bg-cyan-700 text-white hover:bg-cyan-600">
+                <a href="#home" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-white hover:text-cyan-400 transition-colors">Início</a>
+                <a href="#services" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-cyan-400 transition-colors">Soluções</a>
+                <a href="#about" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-cyan-400 transition-colors">Sobre</a>
+                <a href="#contact" class="mobile-link block px-3 py-2 mt-4 text-center rounded-md text-base font-bold bg-cyan-700 text-white hover:bg-cyan-600 transition-colors">
                     Solicite Orçamento
                 </a>
             </div>
@@ -175,50 +215,63 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Service 1 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group flex flex-col">
                     <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
-                        <!-- Darkened icon color for contrast -->
                         <i data-lucide="mic-2" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
-                    <!-- Darkened text-cyan-600 to text-cyan-700 for better contrast on white -->
                     <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Assessoria de Imprensa</h3>
-                    <p class="text-gray-600 leading-relaxed">Aumente sua autoridade e visibilidade na mídia espontânea com estratégias que colocam sua marca em destaque.</p>
+                    <p class="text-gray-600 leading-relaxed mb-6 flex-grow">Aumente sua autoridade e visibilidade na mídia espontânea com estratégias que colocam sua marca em destaque.</p>
+                    <button onclick="openServiceModal('assessoria')" class="text-cyan-700 font-bold hover:text-cyan-900 flex items-center gap-2 group/btn focus:outline-none focus:underline" aria-label="Saiba mais sobre Assessoria de Imprensa">
+                        Saiba Mais <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" aria-hidden="true"></i>
+                    </button>
                 </div>
 
                 <!-- Service 2 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group flex flex-col">
                     <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
                         <i data-lucide="share-2" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Gerenciamento de Redes Sociais</h3>
-                    <p class="text-gray-600 leading-relaxed">Gestão completa do seu perfil para gerar conexão real com seguidores e transformar likes em clientes.</p>
+                    <p class="text-gray-600 leading-relaxed mb-6 flex-grow">Gestão completa do seu perfil para gerar conexão real com seguidores e transformar likes em clientes.</p>
+                    <button onclick="openServiceModal('redes')" class="text-cyan-700 font-bold hover:text-cyan-900 flex items-center gap-2 group/btn focus:outline-none focus:underline" aria-label="Saiba mais sobre Gerenciamento de Redes Sociais">
+                        Saiba Mais <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" aria-hidden="true"></i>
+                    </button>
                 </div>
 
                 <!-- Service 3 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group flex flex-col">
                     <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
                         <i data-lucide="trending-up" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Planejamento Estratégico</h3>
-                    <p class="text-gray-600 leading-relaxed">Pare de atirar no escuro. Criamos um roteiro detalhado focado nos seus objetivos comerciais e KPIs.</p>
+                    <p class="text-gray-600 leading-relaxed mb-6 flex-grow">Pare de atirar no escuro. Criamos um roteiro detalhado focado nos seus objetivos comerciais e KPIs.</p>
+                    <button onclick="openServiceModal('planejamento')" class="text-cyan-700 font-bold hover:text-cyan-900 flex items-center gap-2 group/btn focus:outline-none focus:underline" aria-label="Saiba mais sobre Planejamento Estratégico">
+                        Saiba Mais <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" aria-hidden="true"></i>
+                    </button>
                 </div>
 
                 <!-- Service 4 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group flex flex-col">
                     <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
                         <i data-lucide="pen-tool" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Geração de Conteúdo</h3>
-                    <p class="text-gray-600 leading-relaxed">Textos persuasivos e relevantes que educam seu mercado e conduzem o cliente pela jornada de compra.</p>
+                    <p class="text-gray-600 leading-relaxed mb-6 flex-grow">Textos persuasivos e relevantes que educam seu mercado e conduzem o cliente pela jornada de compra.</p>
+                    <button onclick="openServiceModal('conteudo')" class="text-cyan-700 font-bold hover:text-cyan-900 flex items-center gap-2 group/btn focus:outline-none focus:underline" aria-label="Saiba mais sobre Geração de Conteúdo">
+                        Saiba Mais <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" aria-hidden="true"></i>
+                    </button>
                 </div>
 
                 <!-- Service 5 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group flex flex-col">
                     <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
                         <i data-lucide="layout" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Materiais Gráficos</h3>
-                    <p class="text-gray-600 leading-relaxed">Design profissional que transmite credibilidade e fortalece a identidade visual da sua marca.</p>
+                    <p class="text-gray-600 leading-relaxed mb-6 flex-grow">Design profissional que transmite credibilidade e fortalece a identidade visual da sua marca.</p>
+                    <button onclick="openServiceModal('grafico')" class="text-cyan-700 font-bold hover:text-cyan-900 flex items-center gap-2 group/btn focus:outline-none focus:underline" aria-label="Saiba mais sobre Materiais Gráficos">
+                        Saiba Mais <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -313,7 +366,8 @@
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold">Telefone/WhatsApp</h4>
-                            <a href="https://wa.me/5551995896326" class="text-gray-400 mt-1 hover:text-cyan-400 transition-colors" aria-label="Enviar mensagem no WhatsApp">+55 51 99589-6326</a>
+                            <!-- Updated WhatsApp link with pre-filled message -->
+                            <a href="https://wa.me/5551995896326?text=Vim%20através%20do%20teu%20site!" target="_blank" rel="noopener noreferrer" class="text-gray-400 mt-1 hover:text-cyan-400 transition-colors" aria-label="Enviar mensagem no WhatsApp">+55 51 99589-6326</a>
                         </div>
                     </div>
                     
@@ -426,6 +480,44 @@
         </div>
     </footer>
 
+    <!-- Service Modal (Initially Hidden) -->
+    <div id="service-modal" class="fixed inset-0 modal-hidden flex items-center justify-center p-4" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeServiceModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="modal-content relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 overflow-y-auto max-h-[90vh]">
+            <button onclick="closeServiceModal()" class="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded-full" aria-label="Fechar modal">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <div class="mb-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-cyan-50 rounded-lg flex items-center justify-center">
+                    <i id="modal-icon" data-lucide="info" class="w-6 h-6 text-cyan-700"></i>
+                </div>
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-900">Detalhes do Serviço</h3>
+            </div>
+            
+            <div class="space-y-4">
+                <p id="modal-description" class="text-gray-600 text-lg leading-relaxed"></p>
+                
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h4 class="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wide">O que está incluído:</h4>
+                    <ul id="modal-features" class="space-y-3">
+                        <!-- Features injected by JS -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-end">
+                <a href="#" id="modal-cta-btn" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-full text-white bg-cyan-700 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-colors gap-2">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    Solicitar Orçamento no WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Back to Top Button -->
     <button id="back-to-top" aria-label="Voltar ao topo" 
         class="fixed bottom-8 right-8 bg-cyan-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform translate-y-20 opacity-0 z-50 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-cyan-700/30 hover:shadow-xl hover:-translate-y-1">
@@ -441,6 +533,128 @@
         // --- ICONS ---
         lucide.createIcons();
 
+        // --- SERVICE DATA & MODAL LOGIC ---
+        const serviceData = {
+            'assessoria': {
+                title: 'Assessoria de Imprensa',
+                description: 'Transformamos as novidades da sua empresa em notícia. Nossa assessoria conecta sua marca aos principais veículos de comunicação, garantindo visibilidade espontânea e construindo autoridade no seu nicho.',
+                features: [
+                    'Produção de Press Releases e Artigos de Opinião',
+                    'Relacionamento com Jornalistas e Mídia',
+                    'Media Training para porta-vozes',
+                    'Gerenciamento de Crises de Imagem',
+                    'Clipping e Relatórios de Resultados'
+                ],
+                icon: 'mic-2'
+            },
+            'redes': {
+                title: 'Gerenciamento de Redes Sociais',
+                description: 'Muito mais que apenas postar. Criamos uma presença digital sólida que dialoga com seu público, aumenta o engajamento e constrói uma comunidade fiel em torno da sua marca.',
+                features: [
+                    'Planejamento de Cronograma Editorial',
+                    'Criação de Arte e Legendas',
+                    'Interação com Seguidores (SAC 2.0)',
+                    'Análise de Métricas e Performance',
+                    'Gestão de Tráfego Pago (Ads)'
+                ],
+                icon: 'share-2'
+            },
+            'planejamento': {
+                title: 'Planejamento Estratégico',
+                description: 'A base de todo sucesso. Analisamos seu mercado, concorrentes e objetivos para traçar a rota mais eficiente. Definimos metas claras e os passos exatos para alcançá-las.',
+                features: [
+                    'Análise SWOT e Diagnóstico de Mercado',
+                    'Definição de Personas e Público-Alvo',
+                    'Definição de KPIs e Metas',
+                    'Roadmap de Ações Trimestral/Semestral',
+                    'Consultoria de Posicionamento de Marca'
+                ],
+                icon: 'trending-up'
+            },
+            'conteudo': {
+                title: 'Geração de Conteúdo',
+                description: 'Conteúdo é rei. Produzimos materiais ricos e persuasivos que educam seu cliente, resolvem dúvidas e o conduzem suavemente pelo funil de vendas até a decisão de compra.',
+                features: [
+                    'Redação para Blogs (SEO)',
+                    'Criação de E-books e Whitepapers',
+                    'Roteiros para Vídeos Institucionais',
+                    'Newsletters e E-mail Marketing',
+                    'Copywriting para Landing Pages'
+                ],
+                icon: 'pen-tool'
+            },
+            'grafico': {
+                title: 'Materiais Gráficos',
+                description: 'A primeira impressão é a que fica. Desenvolvemos toda a identidade visual e materiais de apoio que sua empresa precisa para transmitir profissionalismo e consistência.',
+                features: [
+                    'Criação de Identidade Visual e Logotipos',
+                    'Materiais Impressos (Cartões, Folders, Banners)',
+                    'Apresentações Institucionais (PPT/PDF)',
+                    'Layouts para Web e Social Media',
+                    'Edição de Imagens Profissionais'
+                ],
+                icon: 'layout'
+            }
+        };
+
+        const modal = document.getElementById('service-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-description');
+        const modalFeatures = document.getElementById('modal-features');
+        const modalIcon = document.getElementById('modal-icon');
+        const modalCtaBtn = document.getElementById('modal-cta-btn');
+
+        function openServiceModal(serviceId) {
+            const data = serviceData[serviceId];
+            if (!data) return;
+
+            // Populate Content
+            modalTitle.innerText = data.title;
+            modalDesc.innerText = data.description;
+            
+            // Set Icon
+            modalIcon.setAttribute('data-lucide', data.icon);
+            
+            // Populate Features
+            modalFeatures.innerHTML = data.features.map(feat => `
+                <li class="flex items-start">
+                    <i data-lucide="check" class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5"></i>
+                    <span class="text-gray-700">${feat}</span>
+                </li>
+            `).join('');
+
+            // Update CTA Button Link for WhatsApp
+            const message = encodeURIComponent(`Quero saber mais sobre ${data.title}`);
+            const whatsappUrl = `https://wa.me/5551995896326?text=${message}`;
+            
+            modalCtaBtn.href = whatsappUrl;
+            modalCtaBtn.setAttribute('target', '_blank');
+
+            // Show Modal with smooth transition
+            modal.classList.remove('modal-hidden');
+            // Small timeout to allow removing 'hidden' to take effect before adding opacity
+            requestAnimationFrame(() => {
+                modal.classList.add('modal-visible');
+            });
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+            // Refresh Icons inside modal
+            lucide.createIcons();
+        }
+
+        function closeServiceModal() {
+            modal.classList.remove('modal-visible');
+            modal.classList.add('modal-hidden');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('modal-visible')) {
+                closeServiceModal();
+            }
+        });
+
         // --- NAVBAR LOGIC ---
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -449,18 +663,32 @@
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
         function toggleMenu() {
-            const isHidden = mobileMenu.classList.contains('hidden');
-            if (isHidden) {
-                mobileMenu.classList.remove('hidden');
+            const isClosed = mobileMenu.classList.contains('menu-closed');
+            if (isClosed) {
+                // Open
+                mobileMenu.classList.remove('menu-closed');
+                mobileMenu.classList.add('menu-open');
+                
+                // Icon Swap
                 menuIcon.classList.add('hidden');
+                menuIcon.classList.remove('block');
                 closeIcon.classList.remove('hidden');
+                closeIcon.classList.add('block');
+                
                 // Accessibility updates
                 menuBtn.setAttribute('aria-expanded', 'true');
                 menuBtn.setAttribute('aria-label', 'Fechar menu principal');
             } else {
-                mobileMenu.classList.add('hidden');
+                // Close
+                mobileMenu.classList.remove('menu-open');
+                mobileMenu.classList.add('menu-closed');
+                
+                // Icon Swap
                 menuIcon.classList.remove('hidden');
+                menuIcon.classList.add('block');
                 closeIcon.classList.add('hidden');
+                closeIcon.classList.remove('block');
+
                 // Accessibility updates
                 menuBtn.setAttribute('aria-expanded', 'false');
                 menuBtn.setAttribute('aria-label', 'Abrir menu principal');
@@ -470,7 +698,8 @@
         menuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
-                if (!mobileMenu.classList.contains('hidden')) toggleMenu();
+                // If open, close it
+                if (mobileMenu.classList.contains('menu-open')) toggleMenu();
             });
         });
 
