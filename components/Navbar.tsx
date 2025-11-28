@@ -9,9 +9,8 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
-            <div className="flex-shrink-0 flex items-center gap-2">
-              <Globe className="h-8 w-8 text-cyan-500" />
-              <span className="font-bold text-xl tracking-wider">SF COMUNICAÇÃO</span>
+            <div className="flex-shrink-0 flex items-center">
+              <img src="https://sfcomunicacao.com.br/logo-sf-comunicacao.png" alt="SF Comunicação" className="h-10 w-auto" />
             </div>
           </div>
           <div className="hidden md:block">

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SF Comunicação - Agência de publicidade e marketing digital focada em resultados. Assessoria de imprensa, redes sociais e planejamento estratégico." />
     <title>SF Comunicação - Conectando Ideias</title>
     
     <!-- Tailwind CSS -->
@@ -15,9 +16,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
+        html {
+            scroll-behavior: smooth;
+            /* Ensures anchors don't get hidden behind the 5rem (h-20) fixed navbar */
+            scroll-padding-top: 5rem; 
+        }
         body {
             font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
         }
 
         /* Blob Animation from Hero */
@@ -42,53 +47,68 @@
             background: #1f2937; 
         }
         ::-webkit-scrollbar-thumb {
-            background: #06b6d4; 
+            background: #0e7490; /* Darker Cyan for contrast */
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #0891b2; 
+            background: #155e75; 
+        }
+        
+        /* Focus visibility for accessibility */
+        :focus-visible {
+            outline: 2px solid #06b6d4;
+            outline-offset: 2px;
+        }
+
+        /* Back to Top Button Utility Class */
+        .back-to-top-visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
         }
     </style>
 <script type="importmap">
 {
   "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
 }
 </script>
 </head>
-<body class="bg-white">
+<body class="bg-white text-gray-900 relative">
 
     <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-black/95 text-white border-b border-gray-800 backdrop-blur-sm">
+    <nav class="fixed w-full z-50 bg-black/95 text-white border-b border-gray-800 backdrop-blur-sm" aria-label="Navegação Principal">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center gap-2">
-                        <i data-lucide="globe" class="h-8 w-8 text-cyan-500"></i>
-                        <span class="font-bold text-xl tracking-wider">SF COMUNICAÇÃO</span>
-                    </div>
+                    <a href="#home" class="flex-shrink-0 flex items-center focus:outline-none" aria-label="SF Comunicação - Voltar ao topo">
+                        <img src="https://sfcomunicacao.com.br/logo-sf-comunicacao-redondo.png" alt="Logo SF Comunicação" class="h-12 w-auto">
+                    </a>
                 </div>
                 <!-- Desktop Menu -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#home" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Início</a>
-                        <a href="#services" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Soluções</a>
-                        <a href="#about" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Sobre</a>
-                        <a href="#contact" class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105">
+                        <a href="#home" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:text-cyan-400">Início</a>
+                        <a href="#services" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:text-cyan-400">Soluções</a>
+                        <a href="#about" class="hover:text-cyan-400 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:text-cyan-400">Sobre</a>
+                        <!-- Increased contrast for button: bg-cyan-700 instead of 600 for white text -->
+                        <a href="#contact" class="bg-cyan-700 hover:bg-cyan-600 text-white px-5 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105 focus:bg-cyan-600 shadow-sm">
                             Solicite Orçamento
                         </a>
                     </div>
                 </div>
                 <!-- Mobile Menu Button -->
                 <div class="-mr-2 flex md:hidden">
-                    <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none">
-                        <i data-lucide="menu" class="h-6 w-6 block" id="menu-icon"></i>
-                        <i data-lucide="x" class="h-6 w-6 hidden" id="close-icon"></i>
+                    <button id="mobile-menu-btn" type="button" 
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500"
+                        aria-controls="mobile-menu" 
+                        aria-expanded="false"
+                        aria-label="Abrir menu principal">
+                        <i data-lucide="menu" class="h-6 w-6 block" id="menu-icon" aria-hidden="true"></i>
+                        <i data-lucide="x" class="h-6 w-6 hidden" id="close-icon" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -100,7 +120,7 @@
                 <a href="#home" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-white hover:text-cyan-400">Início</a>
                 <a href="#services" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-cyan-400">Soluções</a>
                 <a href="#about" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-cyan-400">Sobre</a>
-                <a href="#contact" class="mobile-link block px-3 py-2 mt-4 text-center rounded-md text-base font-bold bg-cyan-600 text-white hover:bg-cyan-500">
+                <a href="#contact" class="mobile-link block px-3 py-2 mt-4 text-center rounded-md text-base font-bold bg-cyan-700 text-white hover:bg-cyan-600">
                     Solicite Orçamento
                 </a>
             </div>
@@ -108,31 +128,32 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="relative bg-black text-white pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <!-- Canvas for Bird Animation -->
-        <canvas id="bird-canvas" class="absolute top-0 left-0 w-full h-full z-0 opacity-40"></canvas>
+    <section id="home" class="relative bg-black text-white pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden" aria-labelledby="hero-heading">
+        <!-- Canvas for Bird Animation (Decorative) -->
+        <canvas id="bird-canvas" class="absolute top-0 left-0 w-full h-full z-0 opacity-40" aria-hidden="true" role="presentation"></canvas>
 
-        <!-- Abstract Blobs -->
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <!-- Abstract Blobs (Decorative) -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-cyan-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" aria-hidden="true"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" aria-hidden="true"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center max-w-4xl mx-auto">
                 <h2 class="text-cyan-400 font-bold tracking-wide uppercase text-sm mb-4">
                     SF Comunicação
                 </h2>
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-tight">
-                    Conectando Ideias para o <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">Sucesso da Sua Marca</span>.
+                <h1 id="hero-heading" class="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 leading-tight">
+                    Conectando Ideias para o <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Sucesso da Sua Marca</span>.
                 </h1>
                 <p class="mt-4 text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
                     Transforme a presença digital da sua empresa com estratégias que geram resultados reais, economizam seu tempo e engajam seu público alvo de verdade.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-full text-black bg-cyan-500 hover:bg-cyan-400 transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/25">
+                    <!-- High contrast button: Cyan-500 background with Black text is WCAG AAA -->
+                    <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-full text-black bg-cyan-500 hover:bg-cyan-400 transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/25 focus:ring-4 focus:ring-cyan-500/50">
                         Começar Agora
-                        <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                        <i data-lucide="arrow-right" class="ml-2 h-5 w-5" aria-hidden="true"></i>
                     </a>
-                    <a href="#services" class="inline-flex items-center justify-center px-8 py-4 border border-gray-700 text-lg font-medium rounded-full text-white hover:bg-gray-900 transition-colors">
+                    <a href="#services" class="inline-flex items-center justify-center px-8 py-4 border border-gray-700 text-lg font-medium rounded-full text-white hover:bg-gray-900 transition-colors focus:ring-4 focus:ring-gray-700/50">
                         Conhecer Soluções
                     </a>
                 </div>
@@ -141,10 +162,10 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-24 bg-gray-50">
+    <section id="services" class="py-24 bg-gray-50" aria-labelledby="services-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                <h2 id="services-heading" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     Soluções Completas para o Digital
                 </h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -155,46 +176,48 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Service 1 -->
                 <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
-                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
-                        <i data-lucide="mic-2" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
+                        <!-- Darkened icon color for contrast -->
+                        <i data-lucide="mic-2" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Assessoria de Imprensa</h3>
+                    <!-- Darkened text-cyan-600 to text-cyan-700 for better contrast on white -->
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Assessoria de Imprensa</h3>
                     <p class="text-gray-600 leading-relaxed">Aumente sua autoridade e visibilidade na mídia espontânea com estratégias que colocam sua marca em destaque.</p>
                 </div>
 
                 <!-- Service 2 -->
                 <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
-                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
-                        <i data-lucide="share-2" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
+                        <i data-lucide="share-2" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Gerenciamento de Redes Sociais</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Gerenciamento de Redes Sociais</h3>
                     <p class="text-gray-600 leading-relaxed">Gestão completa do seu perfil para gerar conexão real com seguidores e transformar likes em clientes.</p>
                 </div>
 
                 <!-- Service 3 -->
                 <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
-                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
-                        <i data-lucide="trending-up" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
+                        <i data-lucide="trending-up" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Planejamento Estratégico</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Planejamento Estratégico</h3>
                     <p class="text-gray-600 leading-relaxed">Pare de atirar no escuro. Criamos um roteiro detalhado focado nos seus objetivos comerciais e KPIs.</p>
                 </div>
 
                 <!-- Service 4 -->
                 <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
-                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
-                        <i data-lucide="pen-tool" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
+                        <i data-lucide="pen-tool" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Geração de Conteúdo</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Geração de Conteúdo</h3>
                     <p class="text-gray-600 leading-relaxed">Textos persuasivos e relevantes que educam seu mercado e conduzem o cliente pela jornada de compra.</p>
                 </div>
 
                 <!-- Service 5 -->
                 <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
-                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-colors duration-300">
-                        <i data-lucide="layout" class="w-8 h-8 text-cyan-600 group-hover:text-white transition-colors duration-300"></i>
+                    <div class="w-14 h-14 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
+                        <i data-lucide="layout" class="w-8 h-8 text-cyan-700 group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">Materiais Gráficos</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-700 transition-colors">Materiais Gráficos</h3>
                     <p class="text-gray-600 leading-relaxed">Design profissional que transmite credibilidade e fortalece a identidade visual da sua marca.</p>
                 </div>
             </div>
@@ -202,12 +225,12 @@
     </section>
 
     <!-- Social Proof Section -->
-    <section id="about" class="py-24 bg-white">
+    <section id="about" class="py-24 bg-white" aria-labelledby="about-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
                 
                 <div class="mb-12 lg:mb-0">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                    <h2 id="about-heading" class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                         Por que escolher a SF Comunicação?
                     </h2>
                     <p class="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -216,50 +239,50 @@
                         informativa, profissional e vibrante.
                     </p>
                     
-                    <div class="space-y-6">
-                        <div class="flex items-start">
+                    <ul class="space-y-6 list-none pl-0">
+                        <li class="flex items-start">
                             <div class="flex-shrink-0">
-                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-500"></i>
+                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-600" aria-hidden="true"></i>
                             </div>
                             <p class="ml-3 text-lg text-gray-700">Experiência comprovada em comunicação B2B e digital.</p>
-                        </div>
-                        <div class="flex items-start">
+                        </li>
+                        <li class="flex items-start">
                             <div class="flex-shrink-0">
-                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-500"></i>
+                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-600" aria-hidden="true"></i>
                             </div>
                             <p class="ml-3 text-lg text-gray-700">Estratégias personalizadas para pequenas e médias empresas.</p>
-                        </div>
-                        <div class="flex items-start">
+                        </li>
+                        <li class="flex items-start">
                             <div class="flex-shrink-0">
-                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-500"></i>
+                                <i data-lucide="check-circle" class="h-6 w-6 text-cyan-600" aria-hidden="true"></i>
                             </div>
                             <p class="ml-3 text-lg text-gray-700">Atendimento ágil e focado em Sapucaia do Sul e todo Brasil.</p>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="bg-gray-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
                     <!-- Decorative circles -->
-                    <div class="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-cyan-600 rounded-full opacity-20"></div>
-                    <div class="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 bg-purple-600 rounded-full opacity-20"></div>
+                    <div class="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-cyan-600 rounded-full opacity-20" aria-hidden="true"></div>
+                    <div class="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 bg-purple-600 rounded-full opacity-20" aria-hidden="true"></div>
 
                     <h3 class="text-2xl font-bold mb-8 relative z-10">Nossa Presença Digital</h3>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
                         <div class="flex flex-col p-4 bg-gray-800 rounded-xl border border-gray-700">
-                            <i data-lucide="layers" class="h-8 w-8 text-cyan-400 mb-2"></i>
+                            <i data-lucide="layers" class="h-8 w-8 text-cyan-400 mb-2" aria-hidden="true"></i>
                             <span class="text-4xl font-bold">314+</span>
                             <span class="text-gray-400 text-sm mt-1">Posts Estratégicos</span>
                         </div>
                         
                         <div class="flex flex-col p-4 bg-gray-800 rounded-xl border border-gray-700">
-                            <i data-lucide="users" class="h-8 w-8 text-cyan-400 mb-2"></i>
+                            <i data-lucide="users" class="h-8 w-8 text-cyan-400 mb-2" aria-hidden="true"></i>
                             <span class="text-4xl font-bold">240+</span>
                             <span class="text-gray-400 text-sm mt-1">Seguidores Ativos</span>
                         </div>
 
                         <div class="flex flex-col p-4 bg-gray-800 rounded-xl border border-gray-700 sm:col-span-2">
-                            <i data-lucide="award" class="h-8 w-8 text-purple-400 mb-2"></i>
+                            <i data-lucide="award" class="h-8 w-8 text-purple-400 mb-2" aria-hidden="true"></i>
                             <span class="text-lg font-semibold">Compromisso com Qualidade</span>
                             <span class="text-gray-400 text-sm mt-1">Foco total no crescimento da sua marca.</span>
                         </div>
@@ -271,10 +294,10 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-24 bg-gradient-to-b from-gray-900 to-black text-white relative">
+    <section id="contact" class="py-24 bg-gradient-to-b from-gray-900 to-black text-white relative" aria-labelledby="contact-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl mx-auto text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Vamos Conectar Ideias?</h2>
+                <h2 id="contact-heading" class="text-3xl md:text-4xl font-bold mb-4">Vamos Conectar Ideias?</h2>
                 <p class="text-gray-400 text-lg">
                     Preencha o formulário abaixo para solicitar um orçamento ou tirar dúvidas. 
                     Nossa equipe responderá o mais breve possível.
@@ -286,40 +309,42 @@
                 <div class="md:col-span-1 space-y-8">
                     <div class="flex items-start space-x-4">
                         <div class="bg-cyan-900/50 p-3 rounded-lg">
-                            <i data-lucide="phone" class="h-6 w-6 text-cyan-400"></i>
+                            <i data-lucide="phone" class="h-6 w-6 text-cyan-400" aria-hidden="true"></i>
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold">Telefone/WhatsApp</h4>
-                            <p class="text-gray-400 mt-1">+55 51 99589-6326</p>
+                            <a href="https://wa.me/5551995896326" class="text-gray-400 mt-1 hover:text-cyan-400 transition-colors" aria-label="Enviar mensagem no WhatsApp">+55 51 99589-6326</a>
                         </div>
                     </div>
                     
                     <div class="flex items-start space-x-4">
                         <div class="bg-cyan-900/50 p-3 rounded-lg">
-                            <i data-lucide="mail" class="h-6 w-6 text-cyan-400"></i>
+                            <i data-lucide="mail" class="h-6 w-6 text-cyan-400" aria-hidden="true"></i>
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold">E-mail</h4>
-                            <p class="text-gray-400 mt-1">sfcomunicacao3@gmail.com</p>
+                            <a href="mailto:sfcomunicacao3@gmail.com" class="text-gray-400 mt-1 hover:text-cyan-400 transition-colors">sfcomunicacao3@gmail.com</a>
                         </div>
                     </div>
 
                     <div class="p-6 bg-gray-800 rounded-xl border border-gray-700">
-                        <p className="text-sm text-gray-300 italic">
-                            "A SF Comunicação transformou nossa visão em realidade digital."
-                        </p>
+                        <figure>
+                            <blockquote class="text-sm text-gray-300 italic">
+                                "A SF Comunicação transformou nossa visão em realidade digital."
+                            </blockquote>
+                        </figure>
                     </div>
                 </div>
 
                 <!-- Form -->
                 <div class="md:col-span-2 bg-white rounded-2xl p-8 text-gray-900 shadow-2xl">
-                    <div id="successMessage" class="hidden h-full flex flex-col items-center justify-center text-center py-12">
+                    <div id="successMessage" class="hidden h-full flex flex-col items-center justify-center text-center py-12" role="alert" aria-live="polite">
                         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                            <i data-lucide="send" class="w-8 h-8 text-green-600"></i>
+                            <i data-lucide="send" class="w-8 h-8 text-green-600" aria-hidden="true"></i>
                         </div>
                         <h3 class="text-2xl font-bold text-gray-900">Mensagem Enviada!</h3>
                         <p class="text-gray-600 mt-2">Obrigado pelo contato. Retornaremos em breve.</p>
-                        <button onclick="resetForm()" class="mt-6 text-cyan-600 font-semibold hover:underline">
+                        <button onclick="resetForm()" class="mt-6 text-cyan-700 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded-lg px-2 py-1">
                             Enviar outra mensagem
                         </button>
                     </div>
@@ -328,13 +353,13 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label htmlFor="name" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
-                                <input type="text" id="name" name="name" required
+                                <input type="text" id="name" name="name" required autocomplete="name"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
                                     placeholder="Seu nome" />
                             </div>
                             <div>
                                 <label htmlFor="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail Corporativo</label>
-                                <input type="email" id="email" name="email" required
+                                <input type="email" id="email" name="email" required autocomplete="email"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
                                     placeholder="seu@email.com" />
                             </div>
@@ -343,7 +368,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label htmlFor="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
-                                <input type="tel" id="phone" name="phone"
+                                <input type="tel" id="phone" name="phone" autocomplete="tel"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all"
                                     placeholder="(00) 00000-0000" />
                             </div>
@@ -364,9 +389,10 @@
                         <div>
                             <div class="flex justify-between items-center mb-1">
                                 <label htmlFor="message" class="block text-sm font-medium text-gray-700">Mensagem</label>
-                                <button type="button" id="aiBtn" onclick="generateAiDraft()"
-                                    class="text-xs flex items-center gap-1 text-purple-600 hover:text-purple-800 font-semibold transition-colors">
-                                    <i data-lucide="sparkles" class="w-3 h-3"></i>
+                                <!-- Darkened purple text for 4.5:1 contrast against white -->
+                                <button type="button" id="aiBtn" onclick="generateAiDraft()" aria-label="Gerar rascunho de mensagem com Inteligência Artificial"
+                                    class="text-xs flex items-center gap-1 text-purple-700 hover:text-purple-900 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 rounded px-1">
+                                    <i data-lucide="sparkles" class="w-3 h-3" aria-hidden="true"></i>
                                     Escrever com IA
                                 </button>
                             </div>
@@ -375,9 +401,10 @@
                                 placeholder="Conte um pouco sobre sua necessidade..."></textarea>
                         </div>
 
+                        <!-- Darkened bg to cyan-700 for better white text contrast -->
                         <button type="submit" id="submitBtn"
-                            class="w-full bg-cyan-600 text-white font-bold py-3 rounded-lg hover:bg-cyan-500 transition-colors shadow-lg shadow-cyan-600/30 flex items-center justify-center gap-2">
-                            Solicite um Orçamento <i data-lucide="send" class="w-4 h-4"></i>
+                            class="w-full bg-cyan-700 text-white font-bold py-3 rounded-lg hover:bg-cyan-600 transition-colors shadow-lg shadow-cyan-700/30 flex items-center justify-center gap-2 focus:ring-4 focus:ring-cyan-700/50">
+                            Solicite um Orçamento <i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i>
                         </button>
                     </form>
                 </div>
@@ -386,9 +413,9 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black text-gray-400 py-8 border-t border-gray-800">
+    <footer class="bg-black text-gray-400 py-8 border-t border-gray-800 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0">
+            <div class="mb-4 md:mb-0 text-center md:text-left">
                 <span class="text-white font-bold text-lg">SF COMUNICAÇÃO</span>
                 <p class="text-xs mt-1">Conectando Ideias.</p>
             </div>
@@ -398,6 +425,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Voltar ao topo" 
+        class="fixed bottom-8 right-8 bg-cyan-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform translate-y-20 opacity-0 z-50 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-cyan-700/30 hover:shadow-xl hover:-translate-y-1">
+        <i data-lucide="arrow-up" class="w-6 h-6" aria-hidden="true"></i>
+    </button>
 
     <!-- JavaScript -->
     <script>
@@ -421,10 +454,16 @@
                 mobileMenu.classList.remove('hidden');
                 menuIcon.classList.add('hidden');
                 closeIcon.classList.remove('hidden');
+                // Accessibility updates
+                menuBtn.setAttribute('aria-expanded', 'true');
+                menuBtn.setAttribute('aria-label', 'Fechar menu principal');
             } else {
                 mobileMenu.classList.add('hidden');
                 menuIcon.classList.remove('hidden');
                 closeIcon.classList.add('hidden');
+                // Accessibility updates
+                menuBtn.setAttribute('aria-expanded', 'false');
+                menuBtn.setAttribute('aria-label', 'Abrir menu principal');
             }
         }
 
@@ -432,6 +471,27 @@
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 if (!mobileMenu.classList.contains('hidden')) toggleMenu();
+            });
+        });
+
+        // --- BACK TO TOP LOGIC ---
+        const backToTopBtn = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            // Show button after scrolling down 300px
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('back-to-top-visible');
+                backToTopBtn.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                backToTopBtn.classList.remove('back-to-top-visible');
+                backToTopBtn.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
 
@@ -521,6 +581,7 @@
 
             if (!name) {
                 alert("Por favor, preencha seu nome primeiro.");
+                document.getElementById('name').focus();
                 return;
             }
 
