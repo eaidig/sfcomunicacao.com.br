@@ -1,0 +1,6 @@
+{
+  "name": "SF Comunicação",
+  "description": "Landing page da agência SF Comunicação, focada em gerenciamento de redes sociais com preços acessíveis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

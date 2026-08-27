@@ -1,0 +1,16 @@
+{
+  "name": "sf-comunicacao-landing",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "mkdir -p dist && cp index.html dist/",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "echo 'No linting required for static html'"
+  },
+  "devDependencies": {
+    "vite": "^6.2.3"
+  }
+}
