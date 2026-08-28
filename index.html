@@ -8,6 +8,22 @@
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            blue: {
+              400: '#3accd6', /* Lighter shade for icons/text */
+              500: '#07b2bf', /* Primary brand color */
+              600: '#07b2bf', /* Primary brand color */
+              700: '#0595a1', /* Darker shade for hover states */
+            }
+          }
+        }
+      }
+    }
+  </script>
   
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -350,11 +366,12 @@
         <div class="reveal delay-200">
           <h4 class="text-sm font-black uppercase mb-6 text-[#F5F5F5] tracking-widest">Redes Sociais</h4>
           <div class="flex space-x-4">
-            <a href="#" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-colors">
-              <i data-lucide="instagram" class="w-5 h-5"></i>
-            </a>
-            <a href="#" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-colors">
-              <i data-lucide="facebook" class="w-5 h-5"></i>
+            <a href="https://www.instagram.com/sfcomunicacao_" target="_blank" rel="noopener noreferrer" class="text-white/70 hover:text-blue-500 transition-colors inline-block" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
             </a>
           </div>
         </div>
